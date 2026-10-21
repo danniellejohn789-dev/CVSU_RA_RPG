@@ -32,7 +32,8 @@ class Player{
 
 	void playerTurn(Scanner sml){
 
-		for(Enemy enemy : visibleEnemies){
+		for(Enemy enemy : new ArrayList<>(visibleEnemies)){
+
 			System.out.printf("\n--- %s turn (%d HP) ---\n",name, hp);
 			System.out.println("What do you do?");
 			System.out.printf("\t[0] Attack %s: %d HP, %d Damage\n",enemy.name, enemy.hp, enemy.damage);
@@ -47,16 +48,13 @@ class Player{
 					\t[2] %s\n""",swo.name, sta.name);
 				System.out.print(": ");
 				int ano1 = sml.nextInt();
+				sml.nextLine();
 				
-				if (enemy.hp == 0){
-					System.out.printf("\n%s DEFEATED!",enemy.name);
-					visibleEnemies.remove(enemy);
-				}
 
-				else if (ano1 == 1){
+				if (ano1 == 1){
 					if (enemy instanceof Knight){
 						System.out.println("\nNasaktan ang " + enemy.name);
-						enemy.hp -= 1;
+						enemy.hp -= swo.damage;
 					}else{
 						System.out.println("\nNot Knight");
 					}
@@ -65,7 +63,7 @@ class Player{
 				else if (ano1 == 2){
 					if(enemy instanceof Wizard){
 						System.out.println("\nNasaktan ang " + enemy.name);
-						enemy.hp -= 1;
+						enemy.hp -= sta.damage;
 					}else{
 						System.out.println("\nNot Wizard");
 					}
@@ -78,6 +76,11 @@ class Player{
 
 			else{
 				System.out.println("\nWhat in the helly");
+			}
+
+			if (enemy.hp == 0){
+				System.out.printf("\n%s DEFEATED!",enemy.name);
+				visibleEnemies.remove(enemy);
 			}
 		}
 	}
